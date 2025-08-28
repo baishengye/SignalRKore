@@ -18,7 +18,7 @@ kotlin {
         }
     }
 
-    jvm()
+//    jvm()
 
     if (OperatingSystem.current().isMacOsX) {
         listOf(
