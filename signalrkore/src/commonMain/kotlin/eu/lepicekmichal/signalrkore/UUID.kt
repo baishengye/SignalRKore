@@ -1,5 +1,7 @@
 package eu.lepicekmichal.signalrkore
 
-expect object UUID {
-    fun randomUUID(): String
+import java.util.UUID
+
+object UUID {
+    fun randomUUID(): String = UUID.randomUUID().toString()
 }
