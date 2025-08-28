@@ -6,12 +6,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.vanniktech.publish)
-    alias(libs.plugins.dokka)
 }
-
-group = requireNotNull(project.findProperty("GROUP"))
-version = requireNotNull(project.findProperty("VERSION_NAME"))
 
 kotlin {
     androidTarget {
@@ -104,37 +99,10 @@ android {
     namespace = "eu.lepicekmichal.signalrkore"
 }
 
-mavenPublishing {
-    pomFromGradleProperties()
-    publishToMavenCentral()
-    signAllPublications()
-    configure(
-        com.vanniktech.maven.publish.KotlinMultiplatform(
-            javadocJar = com.vanniktech.maven.publish.JavadocJar.Empty(),
-        )
-    )
-}
-
 tasks.register<HubCommunicationTask>("HubCommunicationGeneration") {
     this.group = "build"
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     dependsOn += tasks["HubCommunicationGeneration"]
-}
-
-tasks.dokkaHtml {
-    outputDirectory.set(layout.buildDirectory.dir("dokka"))
-
-    dokkaSourceSets {
-        configureEach {
-            includes.from("Module.md")
-
-            sourceLink {
-                localDirectory.set(file("src"))
-                remoteUrl.set(uri("https://github.com/lepicekmichal/SignalRKore/tree/main/signalrkore/src").toURL())
-                remoteLineSuffix.set("#L")
-            }
-        }
-    }
 }
