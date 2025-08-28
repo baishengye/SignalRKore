@@ -10,7 +10,9 @@ plugins {
 
 kotlin {
     androidTarget {
+        // ✅ 发布 Android release 变体
         publishLibraryVariants("release")
+
         tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
             compilerOptions {
                 jvmTarget.set(JvmTarget.JVM_1_8)
@@ -18,7 +20,8 @@ kotlin {
         }
     }
 
-//    jvm()
+    // ❌ 删除 jvm()，避免重复类
+    // jvm()
 
     if (OperatingSystem.current().isMacOsX) {
         listOf(
@@ -59,24 +62,27 @@ kotlin {
                 implementation(libs.okio)
             }
         }
+
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
             }
         }
-        val jvmMain by getting {
+
+        // ❌ 删除 jvmMain（因为没了 jvm()）
+
+        val androidMain by getting {
             dependencies {
                 implementation(libs.okhttp)
                 implementation(libs.ktor.okhttp)
             }
         }
-        val androidMain by getting {
-            dependsOn(jvmMain)
-        }
 
         if (OperatingSystem.current().isMacOsX) {
-            iosMain.dependencies {
-
+            val iosMain by getting {
+                dependencies {
+                    // iOS 依赖（如果有）
+                }
             }
         }
     }
