@@ -20,6 +20,7 @@ class JsonHubProtocol(private val logger: Logger) : HubProtocol {
             .split(RECORD_SEPARATOR)
             .filter { it.isNotEmpty() }
             .mapNotNull { str ->
+                str.replace(",null",",\"\"")
                 try {
                     logger.log(Logger.Severity.INFO, "Decoding message: $str", null)
                     json.decodeFromString(str)
