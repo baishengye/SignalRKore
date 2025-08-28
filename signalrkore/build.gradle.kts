@@ -10,6 +10,7 @@ plugins {
 
 kotlin {
     androidTarget {
+        publishLibraryVariants("release")
         tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
             compilerOptions {
                 jvmTarget.set(JvmTarget.JVM_1_8)
@@ -82,9 +83,6 @@ kotlin {
 }
 
 android {
-    publishing {
-        singleVariant("release") // ✅ 用双引号
-    }
     compileSdk = 34
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
