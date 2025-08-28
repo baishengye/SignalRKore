@@ -82,6 +82,9 @@ kotlin {
 }
 
 android {
+    publishing {
+        singleVariant("release") // ✅ 用双引号
+    }
     compileSdk = 34
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
